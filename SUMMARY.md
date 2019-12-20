@@ -3,7 +3,7 @@
 - [Introduction](./index.md)
 - [RFCs](./rfcs/index.md)
   - [Approved RFCs](./rfcs/approved.md)
-    - [RFC-0002 Multi-Blockchain Support](./rfcs/0002-multi-blockchain-support.md)
+    - [RFC-0003 Multi-Blockchain Support](./rfcs/0003-multi-blockchain-support.md)
   - [Obsolete RFCs](./rfcs/obsolete.md)
   - [Rejected RFCs](./rfcs/rejected.md)
 - [Engineering Plans](./engineering-plans/index.md)

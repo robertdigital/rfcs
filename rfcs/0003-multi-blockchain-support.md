@@ -1,17 +1,17 @@
-# RFC-0002: Multi-Blockchain Support
+# RFC-0003: Multi-Blockchain Support
 
 <dl>
   <dt>Author</dt>
   <dd>Jannis Pohlmann</dd>
 
   <dt>RFC pull request</dt>
-  <dd><a href="URL">URL</a></dd>
+  <dd><a href="https://github.com/graphprotocol/rfcs/pull/8">https://github.com/graphprotocol/rfcs/pull/8</a></dd>
 
   <dt>Obsoletes (if applicable)</dt>
   <dd>-</dd>
 
   <dt>Date of submission</dt>
-  <dd>2019-12-18</dd>
+  <dd>2019-12-20</dd>
 
   <dt>Date of approval</dt>
   <dd>-</dd>

@@ -1,3 +1,3 @@
 # Approved RFCs
 
-- [RFC-0002: Multi-Blockchain Support](./0002-multi-blockchain-support.md)
+- [RFC-0003: Multi-Blockchain Support](./0003-multi-blockchain-support.md)
