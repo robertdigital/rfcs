@@ -5,7 +5,7 @@
   <dd>Ford Nickels</dd>
 
   <dt>RFC pull request</dt>
-  <dd><a href="URL">URL</a></dd>
+  <dd><a href="https://github.com/graphprotocol/rfcs/pull/11">URL</a></dd>
 
   <dt>Obsoletes (if applicable)</dt>
   <dd>-</dd>
