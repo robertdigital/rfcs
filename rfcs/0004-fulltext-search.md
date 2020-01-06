@@ -109,7 +109,7 @@ type ExampleItem @entity {
     specs: String!,
     address: Bytes!,
     marked: Boolean!,
-    itemSearch: String! @FullTextSearchIndex(language: "english", fields: [{name: "name", weight: 5}, {name: "description", weight: 3}, {name: "specs", weight: 1}])
+    itemSearch: String! @fullTextSearchIndex(language: "english", fields: [{name: "name", weight: 5}, {name: "description", weight: 3}, {name: "specs", weight: 1}])
 }
 ```  
 
