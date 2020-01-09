@@ -159,7 +159,7 @@ query {
 
 Fulltext search query system implementations often involve specific systems 
 for storing and querying the text documents; however, in an effort to reduce 
-system complexity and feature implemtation time I propose starting with the 
+system complexity and feature implementation time I propose starting with the 
 fulltext search features built in to PostgreSQL.
 
 A FullText search field will get its own column in the Entity table just 
@@ -174,17 +174,17 @@ the indexed fulltext search data.
  
 
 Limitations of Postgres fulltext search indexes and search algorithms: 
-  - only certain languages available (expandable with plugins namely PGroonga), 
+  - only certain languages available (expandable with plugins like [PGroonga](https://pgroonga.github.io/)), 
   - select algorithms are available, and 
   - limited to PostgreSQL storage. 
 
 Alternative technologies (not in any particular order): 
-  Written in Rust:
-    - Tantivy (https://github.com/tantivy-search/tantivy)
-    - Toshi (https://github.com/toshi-search/Toshi)
-    - Sonic (https://github.com/valeriansaliou/sonic)
-    - MeiliSearch (https://github.com/meilisearch/MeiliSearch)
-    - Bayard (https://github.com/bayard-search/bayard)
+  - Written in Rust:
+    - [Tantivy](https://github.com/tantivy-search/tantivy)
+    - [Toshi](https://github.com/toshi-search/Toshi)
+    - [Sonic](https://github.com/valeriansaliou/sonic)
+    - [MeiliSearch](https://github.com/meilisearch/MeiliSearch)
+    - [Bayard](https://github.com/bayard-search/bayard)
 
 ## Compatibility
 
