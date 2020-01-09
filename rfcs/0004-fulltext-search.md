@@ -132,9 +132,9 @@ For each fulltext index three search algorithms will be made available to
 the end user: a simple text query, a standard ranking, and a cover 
 density ranking algorithm: 
   - `query`: search for the string in the indexed document. Several 
-    operators available: and, or, and proximity (`&`, `|`, `<->`.) 
+    operators are available: and, or, and proximity (`&`, `|`, `<->`.) 
     The proximity operator allows one to specify max distance: 
-    3 words apart → `<3>`. (filter suffix = ``)
+    3 words apart → `<3>`. (no filter suffix)
   - `standard ranking`: ranking based on the number of matching lexemes. 
     (filter suffix = `_rank`)
   - `cover density ranking`: Cover density is similar to the standard 
@@ -142,12 +142,12 @@ density ranking algorithm:
     to each other is taken into consideration. This function requires 
     lexeme positional information to perform its calculation, so it ignores 
     any "stripped" lexemes in the index.
-    (filter suffix = `_rank_cd`)
+    (filter suffix = `_proximity_rank`)
     
 Example Usage in a query (references the example Entity definition from above section): 
 ```graphql
 query {
-    exampleItems(first: 10, where: {itemSearch_rank_cd: "sarcastic"}) {
+    exampleItems(first: 10, where: {itemSearch_proximity_rank: "sarcastic&tea"}) {
         address
         name 
         description
