@@ -55,10 +55,11 @@ With the proposed feature I aim to:
      
 ## Urgency
 
-Fulltext search filters are not essential to the value proposition of 
-the Graph Node, so the implementation is not urgent. However, several 
-high profile users have communicated that it may be a conversion blocker, 
-so it would be a valuable addition and should be added immediately. 
+A delay in adding the fulltext search feature  will not create issues with 
+current deployments. However, it will represent a realization of part of 
+the long term vision for the query network. Also several high profile users 
+have communicated that it may be a conversion blocker, so implementation 
+should be prioritized. 
 
 ## Terminology
 
