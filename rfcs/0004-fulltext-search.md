@@ -91,15 +91,17 @@ For each fulltext search index a subgraph developer must be able to specify:
 The proposed process of adding a fulltext search index to an Entity 
 involves adding a special field to that Entity in the GraphQL schema of 
 the subgraph's definition. The subgraph developer will create a new virtual 
-field of type String that is marked with the special `@FullTextSearch` directive. 
-The directive will have two required parameters for specifying the language
- and the fields to be incorporated. Verification of the index definition 
- will ensure that all fields referenced are valid String type fields on 
- that entity. To be clear, the proposed interface will add the fulltext 
- search definitions to the subgraph deployment hash, so adding or updating 
- a fulltext search index will require an update to the subgraph.  
- With subgraph composition it will be possible to easily create new subgraphs 
- that add specific fulltext search indexes to an existing subgraph. 
+field of type String that is marked with the special `@index` directive. 
+The directive will have two required parameters for specifying the index
+`type` and `params`. Params fields are specific to the index type; in the 
+case of fulltext search there will be two params to specify: `language` 
+and `fields`. Verification of the index definition will ensure that all 
+fields referenced are valid String type fields. To be clear, the proposed 
+interface will add the fulltext search index definitions to the subgraph 
+deployment hash, so adding or updating a fulltext search index will require 
+an update to the subgraph.  With subgraph composition it will be possible 
+to easily create new subgraphs that add specific fulltext search indexes 
+to an existing subgraph. 
 
 Example fulltext search field definition:
 ```graphql
@@ -110,7 +112,17 @@ type ExampleItem @entity {
     specs: String!,
     address: Bytes!,
     marked: Boolean!,
-    itemSearch: String! @fullTextSearchIndex(language: "english", fields: [{name: "name", weight: 5}, {name: "description", weight: 3}, {name: "specs", weight: 1}])
+    itemSearch: String! @index(
+        type: "fulltext", 
+        params: {
+            language:"english", 
+            fields: [
+                {name: "name", weight: 5}, 
+                {name: "description", weight: 3}, 
+                {name: "specs", weight: 1},                
+            ],            
+        }
+    )
 }
 ```  
 
@@ -218,7 +230,7 @@ verification and allowing indexer node operators to experiment with
 algorithms and indexes in order to continue to improve query speed and results? 
 
 Since a fulltext search field is purely derivative of other Entity data 
-the addition or update of a @fullTextSearchIndex field does not require a 
-full blockchain resync, rather the index itself just needs to be rebuilt. 
+the addition or update of an @index field does not require a full blockchain 
+resync, rather the index itself just needs to be rebuilt. 
 How can we allow fulltext search index (and eventually other index types) 
 updates without requiring a full subgraph resync? 
