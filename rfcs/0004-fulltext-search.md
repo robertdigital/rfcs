@@ -72,6 +72,16 @@ should be prioritized.
   analysis (stemming) of a set of text documents.  It provides frequency 
   and location for the language-specific stems found in the text documents 
   being indexed. 
+- `ranking algorithm`: "Ranking attempts to measure how relevant documents 
+  are to a particular query, so that when there are many matches the most 
+  relevant ones can be shown first." [-Postgres Documentation](https://www.postgresql.org/docs/11/textsearch-controls.html#TEXTSEARCH-RANKING-SEARCH-RESULTS)
+  **Algorithms**:
+  - `standard ranking`: ranking based on the number of matching lexemes.     
+  - `cover density ranking`: Cover density is similar to the standard 
+    fulltext search ranking except that the proximity of matching lexemes 
+    to each other is taken into consideration. This function requires 
+    lexeme positional information to perform its calculation, so it ignores 
+    any "stripped" lexemes in the index.            
 
 ## Detailed Design
 
