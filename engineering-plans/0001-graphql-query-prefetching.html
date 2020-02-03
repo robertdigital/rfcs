@@ -1,0 +1,580 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>PLAN-0001: GraphQL Query Prefetching - Graph Protocol RFCs and Engineering Plans</title>
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+        <link rel="stylesheet" href="../assets/mermaid.css">
+        
+        <link rel="stylesheet" href="../assets/custom.css">
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
+                <ol class="chapter"><li class="expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="expanded "><a href="../rfcs/index.html"><strong aria-hidden="true">2.</strong> RFCs</a></li><li><ol class="section"><li class="expanded "><a href="../rfcs/approved.html"><strong aria-hidden="true">2.1.</strong> Approved RFCs</a></li><li><ol class="section"><li class="expanded "><a href="../rfcs/0001-subgraph-composition.html"><strong aria-hidden="true">2.1.1.</strong> RFC-0001: Subgraph Composition</a></li><li class="expanded "><a href="../rfcs/0002-ethereum-tracing-cache.html"><strong aria-hidden="true">2.1.2.</strong> RFC-0002: Ethereum Tracing Cache</a></li><li class="expanded "><a href="../rfcs/0003-mutations.html"><strong aria-hidden="true">2.1.3.</strong> RFC-0003: Mutations</a></li></ol></li><li class="expanded "><a href="../rfcs/obsolete.html"><strong aria-hidden="true">2.2.</strong> Obsolete RFCs</a></li><li class="expanded "><a href="../rfcs/rejected.html"><strong aria-hidden="true">2.3.</strong> Rejected RFCs</a></li></ol></li><li class="expanded "><a href="../engineering-plans/index.html"><strong aria-hidden="true">3.</strong> Engineering Plans</a></li><li><ol class="section"><li class="expanded "><a href="../engineering-plans/approved.html"><strong aria-hidden="true">3.1.</strong> Approved Plans</a></li><li><ol class="section"><li class="expanded "><a href="../engineering-plans/0001-graphql-query-prefetching.html" class="active"><strong aria-hidden="true">3.1.1.</strong> PLAN-0001: GraphQL Query Prefetching</a></li><li class="expanded "><a href="../engineering-plans/0002-ethereum-tracing-cache.html"><strong aria-hidden="true">3.1.2.</strong> PLAN-0002: Ethereum Tracing Cache</a></li><li class="expanded "><a href="../engineering-plans/0003-remove-jsonb-storage.html"><strong aria-hidden="true">3.1.3.</strong> PLAN-0003: Remove JSONB Storage</a></li></ol></li><li class="expanded "><a href="../engineering-plans/obsolete.html"><strong aria-hidden="true">3.2.</strong> Obsolete Plans</a></li><li class="expanded "><a href="../engineering-plans/rejected.html"><strong aria-hidden="true">3.3.</strong> Rejected Plans</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">Graph Protocol RFCs and Engineering Plans</h1>
+
+                        <div class="right-buttons">
+                            <a href="../print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#plan-0001-graphql-query-prefetching" id="plan-0001-graphql-query-prefetching">PLAN-0001: GraphQL Query Prefetching</a></h1>
+<dl>
+  <dt>Author</dt>
+  <dd>David Lutterkort</dd>
+<dt>Implements</dt>
+<dd>No RFC - no user visible changes</dd>
+<dt>Engineering Plan pull request</dt>
+<dd><a href="<https://github.com/graphprotocol/rfcs/pull/2>">https://github.com/graphprotocol/rfcs/pull/2</a></dd>
+<dt>Date of submission</dt>
+<dd>2019-11-27</dd>
+<dt>Date of approval</dt>
+<dd>2019-12-10</dd>
+<dt>Approved by</dt>
+  <dd>Jannis Pohlmann, Leo Yvens</dd>
+</dl>
+<p>This is not really a plan as it was written and discussed before we adopted
+the RFC process, but contains important implementation detail of how we
+process GraphQL queries.</p>
+<h2><a class="header" href="#contents" id="contents">Contents</a></h2>
+<ul>
+<li><a href="#implementation-details-for-prefetch-queries">Implementation Details for prefetch queries</a>
+<ul>
+<li><a href="#goal">Goal</a></li>
+<li><a href="#handling-firstskip">Handling first/skip</a></li>
+<li><a href="#handling-interfaces">Handling interfaces</a></li>
+<li><a href="#handling-parentchild-relationships">Handling parent/child relationships</a>
+<ul>
+<li><a href="#type-a">Type A</a></li>
+<li><a href="#type-b">Type B</a></li>
+<li><a href="#type-c">Type C</a></li>
+<li><a href="#type-d">Type D</a></li>
+</ul>
+</li>
+<li><a href="#putting-it-all-together">Putting it all together</a></li>
+</ul>
+</li>
+<li><a href="#boring-list-of-possible-graphql-models">Boring list of possible GraphQL models</a></li>
+</ul>
+<h2><a class="header" href="#implementation-details-for-prefetch-queries" id="implementation-details-for-prefetch-queries">Implementation Details for prefetch queries</a></h2>
+<h3><a class="header" href="#goal" id="goal">Goal</a></h3>
+<p>For a GraphQL query of the form</p>
+<pre><code class="language-graphql">query {
+  parents(filter) {
+    id
+    children(filter) {
+      id
+    }
+  }
+}
+</code></pre>
+<p>we want to generate only two SQL queries: one to get the parents, and one
+to get the children for all those parents. The fact that <code>children</code> is
+nested under <code>parents</code> requires that we add a filter to the <code>children</code>
+query that restricts children to those that are related to the parents we
+fetched in the first query to get the parents. How exactly we filter the
+<code>children</code> query depends on how the relationship between parents and
+children is modeled in the GraphQL schema, and on whether one (or both) of
+the types involved are interfaces.</p>
+<p>The rest of this writeup is concerned with how to generate the query for
+<code>children</code>, assuming we already retrieved the list of all parents.</p>
+<p>The bulk of the implementation of this feature can be found in
+<code>graphql/src/store/prefetch.rs</code>, <code>store/postgres/src/jsonb_queries.rs</code>, and
+<code>store/postgres/src/relational_queries.rs</code></p>
+<h3><a class="header" href="#handling-firstskip" id="handling-firstskip">Handling first/skip</a></h3>
+<p>We never get all the <code>children</code> for a parent; instead we always have a
+<code>first</code> and <code>skip</code> argument in the children filter. Those arguments need to
+be applied to each parent individually by ranking the children for each
+parent according to the order defined by the <code>children</code> query. If the same
+child matches multiple parents, we need to make sure that it is considered
+separately for each parent as it might appear at different ranks for
+different parents. In SQL, we use the <code>rank()</code> window function for this:</p>
+<pre><code class="language-sql">select *
+  from (
+    select c.*,
+           rank() over (partition by parent_id order by ...) as pos
+      from (query to get children) c)
+ where pos &gt;= skip and pos &lt; skip + first
+</code></pre>
+<h3><a class="header" href="#handling-interfaces" id="handling-interfaces">Handling interfaces</a></h3>
+<p>If <code>parents</code> or <code>children</code> (or both) are interfaces, we resolve the
+interfaces into the concrete types implementing them, produce a query for
+each combination of parent/child concrete type and combine those queries
+via <code>union all</code>.</p>
+<p>Since implementations of the same interface will generally differ in the schema
+they use, we can not form a <code>union all</code> of all the data in the tables for
+these concrete types, but have to first query only attributes that we know
+will be common to all entities implementing the interface, most notably the
+<code>vid</code> (a unique identifier that identifies the precise version of an
+entity), and then later fill in the details of each entity by converting it
+directly to JSON.</p>
+<p>That means that when we deal with children that are an interface, we will
+first select only the following columns (where exactly they come from
+depends on how the parent/child relationship is modeled)</p>
+<pre><code class="language-sql">select '{__typename}' as entity, c.vid, c.id, parent_id
+</code></pre>
+<p>and form the <code>union all</code> of these queries. We then use that union to rank
+children as described above.</p>
+<h3><a class="header" href="#handling-parentchild-relationships" id="handling-parentchild-relationships">Handling parent/child relationships</a></h3>
+<p>How we get the children for a set of parents depends on how the
+relationship between the two is modeled. The interesting parameters there
+are whether parents store a list or a single child, and whether that field
+is derived, together with the same for children.</p>
+<p>There are a total of 16 combinations of these four boolean variables; four
+of them, when both parent and child derive their fields, are not
+permissible. It also doesn't matter whether the child derives its parent
+field: when the parent field is not derived, we need to use that since that
+is the only place that contains the parent -&gt; child relationship. When the
+parent field is derived, the child field can not be a derived field.</p>
+<p>That leaves us with the following combinations of whether the parent and
+child store a list or a scalar value, and whether the parent is derived:</p>
+<p>For details on the GraphQL schema for each row in this table, see the
+section at the end. The <code>Join cond</code> indicates how we can find the children
+for a given parent. There are four different join conditions in this table.</p>
+<p>When we query children, we need to have the id of the parent that child is
+related to (and list the child multiple times if it is related to multiple
+parents) since that is the field by which we window and rank children.</p>
+<p>For join conditions of type C and D, the id of the parent is not stored in
+the child, which means we need to join with the <code>parents</code> table.</p>
+<p>Let's work out the details of these queries; the implementation uses
+<code>struct EntityLink</code> in <code>graph/src/components/store.rs</code> to distinguish
+between the different types of joins and queries.</p>
+<table><thead><tr><th>Case</th><th>Parent list?</th><th>Parent derived?</th><th>Child list?</th><th>Join cond</th><th>Type</th></tr></thead><tbody>
+<tr><td>1</td><td>TRUE</td><td>TRUE</td><td>TRUE</td><td>child.parents ∋ parent.id</td><td>A</td></tr>
+<tr><td>2</td><td>FALSE</td><td>TRUE</td><td>TRUE</td><td>child.parents ∋ parent.id</td><td>A</td></tr>
+<tr><td>3</td><td>TRUE</td><td>TRUE</td><td>FALSE</td><td>child.parent = parent.id</td><td>B</td></tr>
+<tr><td>4</td><td>FALSE</td><td>TRUE</td><td>FALSE</td><td>child.parent = parent.id</td><td>B</td></tr>
+<tr><td>5</td><td>TRUE</td><td>FALSE</td><td>TRUE</td><td>child.id ∈ parent.children</td><td>C</td></tr>
+<tr><td>6</td><td>TRUE</td><td>FALSE</td><td>FALSE</td><td>child.id ∈ parent.children</td><td>C</td></tr>
+<tr><td>7</td><td>FALSE</td><td>FALSE</td><td>TRUE</td><td>child.id = parent.child</td><td>D</td></tr>
+<tr><td>8</td><td>FALSE</td><td>FALSE</td><td>FALSE</td><td>child.id = parent.child</td><td>D</td></tr>
+</tbody></table>
+<h4><a class="header" href="#type-a" id="type-a">Type A</a></h4>
+<p>Use when parent is derived and child is a list</p>
+<pre><code class="language-sql">select c.*, parent_id
+ from {children} c join lateral unnest(c.{parent_field}) parent_id
+where parent_id = any($parent_ids)
+</code></pre>
+<p>Data needed to generate:</p>
+<ul>
+<li>children: name of child table</li>
+<li>parent_ids: list of parent ids</li>
+<li>parent_field: name of parents field (array) in child table</li>
+</ul>
+<p>The implementation uses a <code>EntityLink::Direct</code> for joins of this type.</p>
+<h4><a class="header" href="#type-b" id="type-b">Type B</a></h4>
+<p>Use when parent is derived and child is not a list</p>
+<pre><code class="language-sql">select c.*, c.{parent_field} as parent_id
+ from {children} c
+where c.{parent_field} = any($parent_ids)
+</code></pre>
+<p>Data needed to generate:</p>
+<ul>
+<li>children: name of child table</li>
+<li>parent_ids: list of parent ids</li>
+<li>parent_field: name of parent field (scalar) in child table</li>
+</ul>
+<p>The implementation uses a <code>EntityLink::Direct</code> for joins of this type.</p>
+<h4><a class="header" href="#type-c" id="type-c">Type C</a></h4>
+<p>Use when parent is a list and not derived</p>
+<pre><code class="language-sql">select c.*, p.id as parent_id
+ from {children} c, {parents} p
+where p.id = any($parent_ids)
+  and c.id = any(p.{child_field})
+</code></pre>
+<p>Data needed to generate:</p>
+<ul>
+<li>children: name of child table</li>
+<li>parent_ids: list of parent ids</li>
+<li>parents: name of parent table</li>
+<li>child_field: name of child field (array) in parent table</li>
+</ul>
+<p>The implementation uses a <code>EntityLink::Parent</code> for joins of this type.</p>
+<h4><a class="header" href="#type-d" id="type-d">Type D</a></h4>
+<p>Use when parent is not a list and not derived</p>
+<pre><code class="language-sql">select c.*, p.id as parent_id
+ from {children} c, {parents} p
+where p.id = any($parent_ids)
+  and c.id = p.child_field
+</code></pre>
+<p>Data needed to generate:</p>
+<ul>
+<li>children: name of child table</li>
+<li>parent_ids: list of parent ids</li>
+<li>parents: name of parent table</li>
+<li>child_field: name of child field (scalar) in parent table</li>
+</ul>
+<p>The implementation uses a <code>EntityLink::Parent</code> for joins of this type.</p>
+<h3><a class="header" href="#putting-it-all-together" id="putting-it-all-together">Putting it all together</a></h3>
+<p>Note that in all of these queries, we ultimately return the typename of
+each entity, together with a JSONB representation of that entity. We do
+this for two reasons: first, because different child tables might have
+different schemas, which precludes us from taking the union of these child
+tables, and second, because Diesel does not let us execute queries where
+the type and number of columns in the result is determined dynamically.</p>
+<p>We need to to be careful though to not convert to JSONB too early, as that
+is slow when done for large numbers of rows. Deferring conversion is
+responsible for some of the complexity in these queries.</p>
+<p>In the following, we only go through the queries for relational storage;
+for JSONB storage, there are similar considerations, though they are
+somewhat simpler as the <code>union all</code> in the below queries turns into
+an <code>entity = any(..)</code> clause with JSONB storage, and because we do not need
+to convert to JSONB data.</p>
+<p>Note that for the windowed queries below, the entity we return will have
+<code>parent_id</code> and <code>pos</code> attributes. The <code>parent_id</code> is necessary to attach
+the query result to the right parents we already have in memory. The JSONB
+queries need to somehow insert the <code>parent_id</code> field into the JSONB data
+they return.</p>
+<p>In the most general case, we have an <code>EntityCollection::Window</code> with
+multiple windows. The query for that case is</p>
+<pre><code class="language-sql">with matches as (
+  -- Limit the matches for each parent
+  select c.*
+    from (
+      -- Rank matching children for each parent
+      select c.*,
+             rank() over (partition by c.parent_id order by {query.order}) as pos
+        from (
+          {window.children_uniform(sort_key, block)}
+          union all
+            ... range ober all windows) c) c
+   where c.pos &gt; {skip} and c.pos &lt;= {skip} + {first})
+-- Get the full entity for each match
+select m.entity, to_jsonb(c.*) as data, m.parent_id, m.pos
+  from matches m, {window.child_table()} c
+ where c.vid = m.vid and m.entity = '{window.child_type}'
+ union all
+       ... range over all windows
+ -- Make sure we return the children for each parent in the correct order
+ order by parent_id, pos
+</code></pre>
+<p>When there is only one window, we can simplify the above query. The
+simplification basically inlines the <code>matches</code> CTE. That is important as
+CTE's in Postgres before Postgres 12 are optimization fences, even when
+they are only used once. We therefore reduce the two queries that Postgres
+executes above to one for the fairly common case that the children are not
+an interface.</p>
+<pre><code class="language-sql">select '{window.child_type}' as entity, to_jsonb(c.*) as data
+  from (
+    -- Rank matching children
+    select c.*,
+          rank() over (partition by c.parent_id order by {query.order}) as pos
+     from ({window.children_detailed()}) c) c
+ where c.pos &gt;= {window.skip} and c.pos &lt;= {window.skip} + {window.first}
+ order by c.parent_id,c.pos
+</code></pre>
+<p>When we do not have to window, but only deal with an
+<code>EntityCollection::All</code> with multiple entity types, we can simplify the
+query by avoiding ranking and just using an ordinary <code>order by</code> clause:</p>
+<pre><code class="language-sql">with matches as (
+  -- Get uniform info for all matching children
+  select '{entity_type}' as entity, id, vid, {sort_key}
+    from {entity_table} c
+   where {query_filter}
+   union all
+     ... range over all entity types
+   order by {sort_key} offset {query.skip} limit {query.first})
+-- Get the full entity for each match
+select m.entity, to_jsonb(c.*) as data, c.id, c.{sort_key}
+  from matches m, {entity_table} c
+ where c.vid = m.vid and m.entity = '{entity_type}'
+ union all
+       ... range over all entity types
+ -- Make sure we return the children for each parent in the correct order
+     order by c.{sort_key}, c.id
+</code></pre>
+<p>And finally, for the very common case of a GraphQL query without nested
+children that uses a concrete type, not an interface, we can further
+simplify this, again by essentially inlining the <code>matches</code> CTE to:</p>
+<pre><code class="language-sql">select '{entity_type}' as entity, to_jsonb(c.*) as data
+  from {entity_table} c
+ where query.filter()
+ order by {query.order} offset {query.skip} limit {query.first}
+</code></pre>
+<h2><a class="header" href="#boring-list-of-possible-graphql-models" id="boring-list-of-possible-graphql-models">Boring list of possible GraphQL models</a></h2>
+<p>These are the eight ways in which a parent/child relationship can be
+modeled. For brevity, I left the <code>id</code> attribute on each parent and child
+type out.</p>
+<p>This list assumes that parent and child types are concrete types, i.e.,
+that any interfaces involved in this query have already been reolved into
+their implementations and we are dealing with one pair of concrete
+parent/child types.</p>
+<pre><code class="language-graphql"># Case 1
+type Parent {
+  children: [Child] @derived
+}
+
+type Child {
+  parents: [Parent]
+}
+
+# Case 2
+type Parent {
+  child: Child @derived
+}
+
+type Child {
+  parents: [Parent]
+}
+
+# Case 3
+type Parent {
+  children: [Child] @derived
+}
+
+type Child {
+  parent: Parent
+}
+
+# Case 4
+type Parent {
+  child: Child @derived
+}
+
+type Child {
+  parent: Parent
+}
+
+# Case 5
+type Parent {
+  children: [Child]
+}
+
+type Child {
+  # doesn't matter
+}
+
+# Case 6
+type Parent {
+  children: [Child]
+}
+
+type Child {
+  # doesn't matter
+}
+
+# Case 7
+type Parent {
+  child: Child
+}
+
+type Child {
+  # doesn't matter
+}
+
+# Case 8
+type Parent {
+  child: Child
+}
+
+type Child {
+  # doesn't matter
+}
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../engineering-plans/approved.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../engineering-plans/0002-ethereum-tracing-cache.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="../engineering-plans/approved.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="../engineering-plans/0002-ethereum-tracing-cache.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+        
+        
+        <script type="text/javascript">
+            window.playpen_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+        <script type="text/javascript" src="../assets/mermaid.min.js"></script>
+        
+        <script type="text/javascript" src="../assets/mermaid-init.js"></script>
+        
+
+        
+
+    </body>
+</html>
